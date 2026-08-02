@@ -260,7 +260,7 @@
       if (isDone) card.classList.add("completed");
 
       var prevDone = i === 0 || localStorage.getItem("tlc_complete_" + cards[i - 1].dataset.slug) === "1";
-      if (!prevDone) {
+      if (!isDone && !prevDone) {
         card.classList.add("locked");
         var prevTitle = cards[i - 1].querySelector("h2").textContent;
         card.title = 'Complete "' + prevTitle + '" first';
