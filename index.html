@@ -59,9 +59,14 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--gray);
-    margin: 0 0 18px;
+    margin: 0 0 6px;
     padding-bottom: 10px;
     border-bottom: 2px solid #e2dfda;
+  }
+  .section-hint {
+    font-size: 12.5px;
+    color: var(--gray);
+    margin: -4px 0 18px;
   }
   .grid {
     display: grid;
@@ -134,6 +139,34 @@
   .card .cta::after {
     content: " →";
   }
+  .card.completed .tag {
+    background: #2e7d32;
+  }
+  .card.completed .tag::after {
+    content: " ✓";
+  }
+  .card.locked {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .card.locked:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  }
+  .card.locked .thumb::before {
+    content: "🔒 Locked";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(38,41,43,0.6);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    z-index: 2;
+  }
   footer {
     text-align: center;
     padding: 24px;
@@ -154,9 +187,10 @@
 
   <section class="section-block">
     <h2 class="section-title">Introduction</h2>
+    <p class="section-hint">Complete each item to unlock the next one.</p>
     <div class="grid">
 
-      <a class="card" href="welcome/content/index.html">
+      <a class="card" data-slug="welcome" href="welcome/content/index.html">
         <div class="thumb" style="background-image:url('welcome/content/assets/Welcome.jpg')">
           <span class="tag">Course</span>
         </div>
@@ -167,7 +201,7 @@
         </div>
       </a>
 
-      <a class="card" href="handbook/index.html">
+      <a class="card" data-slug="handbook" href="handbook/index.html">
         <div class="thumb" style="background-image:url('handbook/thumb.jpg')">
           <span class="tag">Handbook</span>
         </div>
@@ -178,7 +212,7 @@
         </div>
       </a>
 
-      <a class="card" href="the-pot-principle/content/index.html">
+      <a class="card" data-slug="the-pot-principle" href="the-pot-principle/content/index.html">
         <div class="thumb" style="background-image:url('the-pot-principle/content/assets/Welcome.jpg')">
           <span class="tag">Course</span>
         </div>
@@ -189,7 +223,7 @@
         </div>
       </a>
 
-      <a class="card" href="restoration-concepts/content/index.html">
+      <a class="card" data-slug="restoration-concepts" href="restoration-concepts/content/index.html">
         <div class="thumb" style="background-image:url('restoration-concepts/content/assets/stock-image.jpg')">
           <span class="tag">Course</span>
         </div>
@@ -200,7 +234,7 @@
         </div>
       </a>
 
-      <a class="card" href="restoration-services/content/index.html">
+      <a class="card" data-slug="restoration-services" href="restoration-services/content/index.html">
         <div class="thumb" style="background-image:url('restoration-services/content/assets/Welcome.jpg')">
           <span class="tag">Course</span>
         </div>
@@ -215,6 +249,28 @@
   </section>
 
 </main>
+
+<script>
+(function() {
+  document.querySelectorAll(".section-block").forEach(function(section) {
+    var cards = Array.prototype.slice.call(section.querySelectorAll(".card[data-slug]"));
+    cards.forEach(function(card, i) {
+      var slug = card.dataset.slug;
+      var isDone = localStorage.getItem("tlc_complete_" + slug) === "1";
+      if (isDone) card.classList.add("completed");
+
+      var prevDone = i === 0 || localStorage.getItem("tlc_complete_" + cards[i - 1].dataset.slug) === "1";
+      if (!prevDone) {
+        card.classList.add("locked");
+        var prevTitle = cards[i - 1].querySelector("h2").textContent;
+        card.title = 'Complete "' + prevTitle + '" first';
+        card.addEventListener("click", function(e) { e.preventDefault(); });
+        card.removeAttribute("href");
+      }
+    });
+  });
+})();
+</script>
 
 <footer>
   SERVPRO Team Luciani &middot; Employee Training

@@ -251,6 +251,7 @@
 
 <div id="viewer">
   <div class="topbar">
+    <a href="../index.html" style="color:#fff;text-decoration:none;border:1px solid #55585a;padding:7px 12px;border-radius:6px;font-size:13px;">&#8592; Home</a>
     <button id="toc-toggle">&#9776; <span id="toc-label">Contents</span></button>
     <div class="title" id="doc-title">SERVPRO Team Luciani Employee Handbook</div>
     <div class="lang-switch">
@@ -451,6 +452,9 @@ async function renderPage(num) {
   loadingOverlay.style.display = "none";
   document.getElementById("prev-btn").disabled = num <= 1;
   document.getElementById("next-btn").disabled = num >= pdfDoc.numPages;
+  if (num >= pdfDoc.numPages) {
+    localStorage.setItem("tlc_complete_handbook", "1");
+  }
 }
 
 function flipTo(num, direction) {

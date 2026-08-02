@@ -24,5 +24,20 @@ sandbox sha: 42753f3391b109fa3788c525c22880445ab48325
     
       <script src="lib/rise/03fc1f65.js"></script>
     
+  
+    <script>
+    (function(){
+      var SLUG = "restoration-services";
+      var LAST_LESSON_ID = "cmsamii9n002l3b7jkcvqxr1a";
+      function checkComplete(){
+        if (location.hash.indexOf(LAST_LESSON_ID) !== -1) {
+          localStorage.setItem("tlc_complete_" + SLUG, "1");
+        }
+      }
+      window.addEventListener("hashchange", checkComplete);
+      window.addEventListener("load", checkComplete);
+      checkComplete();
+    })();
+    </script>
   </body>
 </html>
