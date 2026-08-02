@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SERVPRO Team Luciani Employee Handbook</title>
+<style>
+  :root {
+    --orange: #ED6A2C;
+    --charcoal: #26292B;
+    --charcoal-2: #35383a;
+    --gray: #6b7280;
+    --bg: #ECEAE6;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--charcoal);
+    overflow: hidden;
+  }
+
+  /* ---------- Landing ---------- */
+  #landing {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--charcoal);
+    color: #fff;
+    text-align: center;
+    padding: 24px;
+  }
+  #landing .accent {
+    display: inline-block; width: 48px; height: 4px;
+    background: var(--orange); border-radius: 2px; margin-bottom: 18px;
+  }
+  #landing h1 { margin: 0 0 6px; font-size: 26px; }
+  #landing p.sub { margin: 0 0 36px; color: #cfcfcf; font-size: 14.5px; }
+  .lang-cards { display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; }
+  .lang-card {
+    width: 220px;
+    background: var(--charcoal-2);
+    border: 1px solid #46494b;
+    border-radius: 12px;
+    padding: 28px 20px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .lang-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--orange);
+    background: #3c3f41;
+  }
+  .lang-card .flag { font-size: 34px; margin-bottom: 10px; }
+  .lang-card h2 { font-size: 17px; margin: 0 0 4px; }
+  .lang-card p { font-size: 12.5px; color: #b9b9b9; margin: 0; }
+
+  /* ---------- Viewer ---------- */
+  #viewer { height: 100%; display: none; flex-direction: column; }
+  .topbar {
+    background: var(--charcoal);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    flex-shrink: 0;
+  }
+  .topbar button {
+    background: transparent;
+    border: 1px solid #55585a;
+    color: #fff;
+    padding: 7px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .topbar button:hover { border-color: var(--orange); }
+  .topbar .title {
+    flex: 1;
+    font-size: 14.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .topbar .lang-switch button.active {
+    background: var(--orange);
+    border-color: var(--orange);
+  }
+
+  .body-row { flex: 1; display: flex; position: relative; overflow: hidden; }
+
+  /* TOC panel */
+  #toc-panel {
+    width: 300px;
+    max-width: 82vw;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+    flex-shrink: 0;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    z-index: 5;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  }
+  #toc-panel.open { transform: translateX(0); }
+  #toc-panel h3 {
+    margin: 0; padding: 16px 18px 10px;
+    font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--gray);
+    border-bottom: 1px solid #eee;
+  }
+  .toc-section { border-bottom: 1px solid #f0f0f0; }
+  .toc-section > .toc-row {
+    padding: 11px 18px;
+    font-weight: 700;
+    font-size: 13.5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+  }
+  .toc-section > .toc-row:hover { background: #faf6f2; color: var(--orange); }
+  .toc-sub {
+    padding: 8px 18px 8px 30px;
+    font-size: 12.5px;
+    color: var(--gray);
+    cursor: pointer;
+  }
+  .toc-sub:hover { background: #faf6f2; color: var(--orange); }
+  .toc-row .pg { color: var(--gray); font-weight: 400; font-size: 12px; }
+
+  #toc-backdrop {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.25);
+    z-index: 4; display: none;
+  }
+  #toc-backdrop.open { display: block; }
+
+  /* Book stage */
+  .book-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    perspective: 2200px;
+    padding: 18px;
+  }
+  .nav-arrow {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: var(--charcoal);
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    z-index: 3;
+  }
+  .nav-arrow:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+  .nav-arrow:disabled { opacity: 0.3; cursor: default; }
+  .nav-arrow:disabled:hover { background: #fff; color: var(--charcoal); border-color: #ddd; }
+
+  .page-wrap {
+    height: 100%;
+    max-width: calc(100% - 110px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  #page-flip {
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    position: relative;
+    max-height: 100%;
+    cursor: pointer;
+  }
+  #pdf-canvas { display: block; max-height: 78vh; max-width: 100%; }
+  .click-zone {
+    position: absolute; top: 0; bottom: 0; width: 40%;
+  }
+  .click-zone.left { left: 0; }
+  .click-zone.right { right: 0; }
+
+  #loading-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(236,234,230,0.6); font-size: 13px; color: var(--gray); z-index: 2;
+  }
+
+  .pagebar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: #fff;
+    border-top: 1px solid #e5e5e5;
+    font-size: 13px;
+  }
+  .pagebar input[type=number] {
+    width: 52px;
+    text-align: center;
+    padding: 4px 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 13px;
+  }
+  .pagebar input[type=range] {
+    width: min(340px, 40vw);
+    accent-color: var(--orange);
+  }
+
+  @media (max-width: 640px) {
+    .topbar .title { display: none; }
+    .page-wrap { max-width: calc(100% - 90px); }
+  }
+</style>
+</head>
+<body>
+
+<div id="landing">
+  <span class="accent"></span>
+  <h1>Employee Handbook</h1>
+  <p class="sub">SERVPRO Team Luciani &middot; Select a language to begin / Seleccione un idioma para comenzar</p>
+  <div class="lang-cards">
+    <div class="lang-card" data-lang="en">
+      <div class="flag">🇺🇸</div>
+      <h2>English</h2>
+      <p>View the handbook in English</p>
+    </div>
+    <div class="lang-card" data-lang="es">
+      <div class="flag">🇪🇸</div>
+      <h2>Espa&ntilde;ol</h2>
+      <p>Ver el manual en espa&ntilde;ol</p>
+    </div>
+  </div>
+</div>
+
+<div id="viewer">
+  <div class="topbar">
+    <button id="toc-toggle">&#9776; <span id="toc-label">Contents</span></button>
+    <div class="title" id="doc-title">SERVPRO Team Luciani Employee Handbook</div>
+    <div class="lang-switch">
+      <button data-lang="en" id="btn-en">EN</button>
+      <button data-lang="es" id="btn-es">ES</button>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div id="toc-backdrop"></div>
+    <aside id="toc-panel">
+      <h3 id="toc-heading">Table of Contents</h3>
+      <div id="toc-list"></div>
+    </aside>
+
+    <div class="book-stage">
+      <button class="nav-arrow" id="prev-btn" aria-label="Previous page">&#8249;</button>
+      <div class="page-wrap">
+        <div id="page-flip">
+          <canvas id="pdf-canvas"></canvas>
+          <div id="loading-overlay">Loading&hellip;</div>
+          <div class="click-zone left" id="click-left"></div>
+          <div class="click-zone right" id="click-right"></div>
+        </div>
+      </div>
+      <button class="nav-arrow" id="next-btn" aria-label="Next page">&#8250;</button>
+    </div>
+  </div>
+
+  <div class="pagebar">
+    <span id="pg-label">Page</span>
+    <input type="number" id="page-input" min="1" value="1">
+    <span>/ <span id="page-count">--</span></span>
+    <input type="range" id="page-slider" min="1" value="1">
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const CONFIG = {
+  en: {
+    file: "handbook-en.pdf",
+    docTitle: "SERVPRO Team Luciani Employee Handbook",
+    tocHeading: "Table of Contents",
+    tocLabel: "Contents",
+    pgLabel: "Page",
+    toc: [
+      { title: "Section I — Introduction", page: 5, sub: [] },
+      { title: "Section II — Employment Relationship", page: 9, sub: [] },
+      { title: "Section III — Equal Employment Opportunity, Antiharassment & Retaliation", page: 11, sub: [] },
+      { title: "Section IV — Employment Classifications & Work Schedules", page: 15, sub: [] },
+      { title: "Section V — Wage & Hour Policies", page: 18, sub: [] },
+      { title: "Section VI — Leaves of Absence & Time Off", page: 22, sub: [
+        { title: "Subsection A — Leaves of Absence", page: 24 },
+        { title: "Subsection B — Time Off", page: 28 }
+      ]},
+      { title: "Section VII — Performance Expectations, Training & Compensation Philosophy", page: 32, sub: [] },
+      { title: "Section VIII — Attendance, Conduct, Integrity & Discipline", page: 35, sub: [] },
+      { title: "Section IX — Technology, Confidentiality & Data Protection", page: 38, sub: [] },
+      { title: "Section X — Vehicles, Expenses & Authorization Limits", page: 42, sub: [] },
+      { title: "Section XI — Workplace Safety, Appearance & Incident Reporting", page: 46, sub: [] },
+      { title: "Section XII — Complaints, Investigations & Whistleblower Protection", page: 49, sub: [] },
+      { title: "Section XIII — Separation of Employment", page: 52, sub: [] },
+      { title: "Employee Acknowledgment & Receipt", page: 55, sub: [] }
+    ]
+  },
+  es: {
+    file: "handbook-es.pdf",
+    docTitle: "Manual del Empleado del Equipo SERVPRO Luciani",
+    tocHeading: "Tabla de Contenido",
+    tocLabel: "Contenido",
+    pgLabel: "Página",
+    toc: [
+      { title: "Sección I — Introducción", page: 5, sub: [] },
+      { title: "Sección II — Relación Laboral", page: 10, sub: [] },
+      { title: "Sección III — Igualdad de Oportunidades en el Empleo, Antiacoso y Represalias", page: 12, sub: [] },
+      { title: "Sección IV — Clasificaciones de Empleo y Horarios de Trabajo", page: 16, sub: [] },
+      { title: "Sección V — Políticas de Salarios y Horas de Trabajo", page: 19, sub: [] },
+      { title: "Sección VI — Licencias y Tiempo Libre", page: 23, sub: [
+        { title: "Subsección A — Licencias de Ausencia", page: 25 },
+        { title: "Subsección B — Tiempo Libre", page: 29 }
+      ]},
+      { title: "Sección VII — Expectativas de Desempeño, Filosofía de Capacitación y Compensación", page: 33, sub: [] },
+      { title: "Sección VIII — Asistencia, Conducta, Integridad y Disciplina", page: 36, sub: [] },
+      { title: "Sección IX — Tecnología, Confidencialidad y Protección de Datos", page: 39, sub: [] },
+      { title: "Sección X — Vehículos, Gastos y Límites de Autorización", page: 43, sub: [] },
+      { title: "Sección XI — Seguridad en el Lugar de Trabajo, Apariencia y Reporte de Incidentes", page: 47, sub: [] },
+      { title: "Sección XII — Quejas, Investigaciones y Protección de Denunciantes", page: 50, sub: [] },
+      { title: "Sección XIII — Separación del Trabajo", page: 53, sub: [] },
+      { title: "Acuse de Recibo y Recibo del Empleado", page: 56, sub: [] }
+    ]
+  }
+};
+
+let pdfDoc = null;
+let currentPage = 1;
+let currentLang = "en";
+let isFlipping = false;
+let pendingRenderToken = 0;
+
+const canvas = document.getElementById("pdf-canvas");
+const ctx = canvas.getContext("2d");
+const pageFlip = document.getElementById("page-flip");
+const loadingOverlay = document.getElementById("loading-overlay");
+const pageInput = document.getElementById("page-input");
+const pageSlider = document.getElementById("page-slider");
+const pageCount = document.getElementById("page-count");
+
+function buildToc(lang) {
+  const list = document.getElementById("toc-list");
+  list.innerHTML = "";
+  CONFIG[lang].toc.forEach(section => {
+    const wrap = document.createElement("div");
+    wrap.className = "toc-section";
+    const row = document.createElement("div");
+    row.className = "toc-row";
+    row.innerHTML = `<span>${section.title}</span><span class="pg">${section.page}</span>`;
+    row.addEventListener("click", () => { goToPage(section.page, true); closeToc(); });
+    wrap.appendChild(row);
+    (section.sub || []).forEach(sub => {
+      const subRow = document.createElement("div");
+      subRow.className = "toc-sub";
+      subRow.textContent = sub.title;
+      subRow.addEventListener("click", () => { goToPage(sub.page, true); closeToc(); });
+      wrap.appendChild(subRow);
+    });
+    list.appendChild(wrap);
+  });
+}
+
+function openToc() {
+  document.getElementById("toc-panel").classList.add("open");
+  document.getElementById("toc-backdrop").classList.add("open");
+}
+function closeToc() {
+  document.getElementById("toc-panel").classList.remove("open");
+  document.getElementById("toc-backdrop").classList.remove("open");
+}
+document.getElementById("toc-toggle").addEventListener("click", () => {
+  const panel = document.getElementById("toc-panel");
+  panel.classList.contains("open") ? closeToc() : openToc();
+});
+document.getElementById("toc-backdrop").addEventListener("click", closeToc);
+
+async function loadLanguage(lang) {
+  currentLang = lang;
+  const cfg = CONFIG[lang];
+  document.getElementById("doc-title").textContent = cfg.docTitle;
+  document.getElementById("toc-heading").textContent = cfg.tocHeading;
+  document.getElementById("toc-label").textContent = cfg.tocLabel;
+  document.getElementById("pg-label").textContent = cfg.pgLabel;
+  document.getElementById("btn-en").classList.toggle("active", lang === "en");
+  document.getElementById("btn-es").classList.toggle("active", lang === "es");
+  buildToc(lang);
+
+  document.getElementById("landing").style.display = "none";
+  document.getElementById("viewer").style.display = "flex";
+  loadingOverlay.style.display = "flex";
+
+  const loadingTask = pdfjsLib.getDocument(cfg.file);
+  pdfDoc = await loadingTask.promise;
+  pageCount.textContent = pdfDoc.numPages;
+  pageInput.max = pdfDoc.numPages;
+  pageSlider.max = pdfDoc.numPages;
+  currentPage = 1;
+  await renderPage(1);
+}
+
+async function renderPage(num) {
+  const token = ++pendingRenderToken;
+  const page = await pdfDoc.getPage(num);
+  if (token !== pendingRenderToken) return;
+  const stage = document.querySelector(".book-stage");
+  const availH = stage.clientHeight - 36;
+  const availW = document.querySelector(".page-wrap").clientWidth - 4;
+  const baseViewport = page.getViewport({ scale: 1 });
+  const scale = Math.min(availH / baseViewport.height, availW / baseViewport.width, 2.2);
+  const viewport = page.getViewport({ scale: Math.max(scale, 0.3) });
+
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+  await page.render({ canvasContext: ctx, viewport }).promise;
+  if (token !== pendingRenderToken) return;
+
+  currentPage = num;
+  pageInput.value = num;
+  pageSlider.value = num;
+  loadingOverlay.style.display = "none";
+  document.getElementById("prev-btn").disabled = num <= 1;
+  document.getElementById("next-btn").disabled = num >= pdfDoc.numPages;
+}
+
+function flipTo(num, direction) {
+  if (isFlipping || num < 1 || num > pdfDoc.numPages || num === currentPage) return;
+  isFlipping = true;
+  const outDeg = direction > 0 ? -85 : 85;
+  const inDeg = direction > 0 ? 85 : -85;
+  pageFlip.style.transition = "transform 200ms ease-in";
+  pageFlip.style.transform = `rotateY(${outDeg}deg)`;
+  setTimeout(async () => {
+    await renderPage(num);
+    pageFlip.style.transition = "none";
+    pageFlip.style.transform = `rotateY(${inDeg}deg)`;
+    void pageFlip.offsetWidth;
+    pageFlip.style.transition = "transform 220ms ease-out";
+    pageFlip.style.transform = "rotateY(0deg)";
+    setTimeout(() => { isFlipping = false; }, 220);
+  }, 200);
+}
+
+function goToPage(num, instant) {
+  if (!pdfDoc) return;
+  num = Math.min(Math.max(1, num), pdfDoc.numPages);
+  if (instant) {
+    if (isFlipping) return;
+    pageFlip.style.transition = "opacity 150ms ease";
+    pageFlip.style.opacity = "0.15";
+    setTimeout(async () => {
+      await renderPage(num);
+      pageFlip.style.opacity = "1";
+    }, 150);
+  } else {
+    const direction = num > currentPage ? 1 : -1;
+    flipTo(num, direction);
+  }
+}
+
+document.getElementById("prev-btn").addEventListener("click", () => goToPage(currentPage - 1));
+document.getElementById("next-btn").addEventListener("click", () => goToPage(currentPage + 1));
+document.getElementById("click-left").addEventListener("click", () => goToPage(currentPage - 1));
+document.getElementById("click-right").addEventListener("click", () => goToPage(currentPage + 1));
+
+pageInput.addEventListener("change", () => goToPage(parseInt(pageInput.value, 10) || 1, true));
+pageSlider.addEventListener("input", () => goToPage(parseInt(pageSlider.value, 10) || 1, true));
+
+document.addEventListener("keydown", (e) => {
+  if (document.getElementById("viewer").style.display !== "flex") return;
+  if (e.key === "ArrowRight") goToPage(currentPage + 1);
+  if (e.key === "ArrowLeft") goToPage(currentPage - 1);
+});
+
+let touchStartX = null;
+document.querySelector(".book-stage").addEventListener("touchstart", (e) => {
+  touchStartX = e.touches[0].clientX;
+});
+document.querySelector(".book-stage").addEventListener("touchend", (e) => {
+  if (touchStartX === null) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    dx < 0 ? goToPage(currentPage + 1) : goToPage(currentPage - 1);
+  }
+  touchStartX = null;
+});
+
+window.addEventListener("resize", () => { if (pdfDoc) renderPage(currentPage); });
+
+document.querySelectorAll(".lang-card").forEach(card => {
+  card.addEventListener("click", () => loadLanguage(card.dataset.lang));
+});
+document.getElementById("btn-en").addEventListener("click", () => loadLanguage("en"));
+document.getElementById("btn-es").addEventListener("click", () => loadLanguage("es"));
+</script>
+</body>
+</html>
