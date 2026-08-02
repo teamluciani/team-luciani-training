@@ -168,12 +168,16 @@
   .nav-arrow:disabled:hover { background: #fff; color: var(--charcoal); border-color: #ddd; }
 
   .page-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
     height: 100%;
     max-width: calc(100% - 110px);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
   }
   #page-flip {
     background: #fff;
@@ -181,10 +185,9 @@
     transform-style: preserve-3d;
     backface-visibility: hidden;
     position: relative;
-    max-height: 100%;
     cursor: pointer;
   }
-  #pdf-canvas { display: block; max-height: 78vh; max-width: 100%; }
+  #pdf-canvas { display: block; max-width: 100%; max-height: 100%; }
   .click-zone {
     position: absolute; top: 0; bottom: 0; width: 40%;
   }
@@ -422,16 +425,24 @@ async function renderPage(num) {
   const token = ++pendingRenderToken;
   const page = await pdfDoc.getPage(num);
   if (token !== pendingRenderToken) return;
-  const stage = document.querySelector(".book-stage");
-  const availH = stage.clientHeight - 36;
-  const availW = document.querySelector(".page-wrap").clientWidth - 4;
+  const wrap = document.querySelector(".page-wrap");
+  const availW = wrap.clientWidth - 12;
+  const availH = wrap.clientHeight - 12;
   const baseViewport = page.getViewport({ scale: 1 });
-  const scale = Math.min(availH / baseViewport.height, availW / baseViewport.width, 2.2);
+  const scale = Math.min(availW / baseViewport.width, availH / baseViewport.height, 4);
   const viewport = page.getViewport({ scale: Math.max(scale, 0.3) });
 
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-  await page.render({ canvasContext: ctx, viewport }).promise;
+  const outputScale = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(viewport.width * outputScale);
+  canvas.height = Math.floor(viewport.height * outputScale);
+  canvas.style.width = Math.floor(viewport.width) + "px";
+  canvas.style.height = Math.floor(viewport.height) + "px";
+
+  const renderContext = { canvasContext: ctx, viewport };
+  if (outputScale !== 1) {
+    renderContext.transform = [outputScale, 0, 0, outputScale, 0, 0];
+  }
+  await page.render(renderContext).promise;
   if (token !== pendingRenderToken) return;
 
   currentPage = num;
