@@ -1,13 +1,192 @@
 <!doctype html>
-<html>
-<head><meta charset="utf-8"><title>Team Luciani Training</title></head>
-<body style="font-family: sans-serif; max-width: 600px; margin: 40px auto;">
-<h1>Team Luciani Training Modules</h1>
-<ul>
-<li><a href="welcome/content/index.html">Welcome to Team Luciani: Structure, Values, and Your Role in Our Success</a></li>
-<li><a href="empathy-urgency/content/index.html">Empathy and Urgency: Essential Communication Skills</a></li>
-<li><a href="filling-the-pot/content/index.html">Filling the Pot: How Your Daily Actions Drive Team and Company Success</a></li>
-<li><a href="mitigation-reconstruction/content/index.html">Mitigation & Reconstruction Fundamentals for Restoration Professionals</a></li>
-</ul>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team Luciani Training</title>
+<style>
+  :root {
+    --orange: #ED6A2C;
+    --charcoal: #26292B;
+    --gray: #6b7280;
+    --bg: #f5f5f4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--charcoal);
+  }
+  header {
+    background: var(--charcoal);
+    color: #fff;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+  }
+  header p {
+    margin: 0;
+    color: #cfcfcf;
+    font-size: 15px;
+  }
+  header .accent {
+    display: inline-block;
+    width: 48px;
+    height: 4px;
+    background: var(--orange);
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+  .card .thumb {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .card .thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
+  }
+  .card .num {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--orange);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    z-index: 1;
+  }
+  .card .body {
+    padding: 18px 20px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card h2 {
+    font-size: 17px;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .card p {
+    font-size: 13.5px;
+    color: var(--gray);
+    margin: 0 0 16px;
+    flex: 1;
+    line-height: 1.5;
+  }
+  .card .cta {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 0.3px;
+  }
+  .card .cta::after {
+    content: " →";
+  }
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--gray);
+    font-size: 12.5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="accent"></span>
+  <h1>Team Luciani Training</h1>
+  <p>Onboarding and skills courses for the SERVPRO Team Luciani team</p>
+</header>
+
+<main>
+  <div class="grid">
+
+    <a class="card" href="welcome/content/index.html">
+      <div class="thumb" style="background-image:url('welcome/content/assets/Welcome.jpg')">
+        <span class="num">Course 1</span>
+      </div>
+      <div class="body">
+        <h2>Welcome to Team Luciani: Structure, Values, and Your Role in Our Success</h2>
+        <p>An introduction to our company structure, core values, and how each role contributes to Team Luciani's success.</p>
+        <span class="cta">Start course</span>
+      </div>
+    </a>
+
+    <a class="card" href="filling-the-pot/content/index.html">
+      <div class="thumb" style="background-image:url('filling-the-pot/content/assets/Welcome.jpg')">
+        <span class="num">Course 2</span>
+      </div>
+      <div class="body">
+        <h2>Filling the Pot: How Your Daily Actions Drive Team and Company Success</h2>
+        <p>How everyday actions and decisions add up to team performance and company results.</p>
+        <span class="cta">Start course</span>
+      </div>
+    </a>
+
+    <a class="card" href="empathy-urgency/content/index.html">
+      <div class="thumb" style="background-image:url('empathy-urgency/content/assets/Welcome.jpg')">
+        <span class="num">Course 3</span>
+      </div>
+      <div class="body">
+        <h2>Empathy and Urgency: Essential Communication Skills</h2>
+        <p>Communication skills for working with customers during high-stress restoration jobs.</p>
+        <span class="cta">Start course</span>
+      </div>
+    </a>
+
+    <a class="card" href="mitigation-reconstruction/content/index.html">
+      <div class="thumb" style="background-image:url('mitigation-reconstruction/content/assets/Welcome.jpg')">
+        <span class="num">Course 4</span>
+      </div>
+      <div class="body">
+        <h2>Mitigation & Reconstruction Fundamentals for Restoration Professionals</h2>
+        <p>Core technical fundamentals of mitigation and reconstruction work.</p>
+        <span class="cta">Start course</span>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  SERVPRO Team Luciani &middot; Employee Training
+</footer>
+
 </body>
 </html>
