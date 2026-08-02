@@ -47,6 +47,22 @@
     margin: 0 auto;
     padding: 40px 24px 80px;
   }
+  .section-block {
+    margin-bottom: 48px;
+  }
+  .section-block:last-child {
+    margin-bottom: 0;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray);
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2dfda;
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -79,7 +95,7 @@
     inset: 0;
     background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
   }
-  .card .num {
+  .card .tag {
     position: absolute;
     top: 12px;
     left: 12px;
@@ -135,20 +151,69 @@
 </header>
 
 <main>
-  <div class="grid">
 
-    <a class="card" href="handbook/index.html">
-      <div class="thumb" style="background-image:url('handbook/thumb.jpg')">
-        <span class="num">Handbook</span>
-      </div>
-      <div class="body">
-        <h2>Employee Handbook</h2>
-        <p>Read the full employee handbook online, available in English and Español, with a table of contents.</p>
-        <span class="cta">Open handbook</span>
-      </div>
-    </a>
+  <section class="section-block">
+    <h2 class="section-title">Introduction</h2>
+    <div class="grid">
 
-  </div>
+      <a class="card" href="welcome/content/index.html">
+        <div class="thumb" style="background-image:url('welcome/content/assets/Welcome.jpg')">
+          <span class="tag">Course</span>
+        </div>
+        <div class="body">
+          <h2>Welcome to Team Luciani</h2>
+          <p>An introduction to our company structure, core values, and how each role contributes to Team Luciani's success.</p>
+          <span class="cta">Start course</span>
+        </div>
+      </a>
+
+      <a class="card" href="handbook/index.html">
+        <div class="thumb" style="background-image:url('handbook/thumb.jpg')">
+          <span class="tag">Handbook</span>
+        </div>
+        <div class="body">
+          <h2>Employee Handbook</h2>
+          <p>Read the full employee handbook online, available in English and Español, with a table of contents.</p>
+          <span class="cta">Open handbook</span>
+        </div>
+      </a>
+
+      <a class="card" href="the-pot-principle/content/index.html">
+        <div class="thumb" style="background-image:url('the-pot-principle/content/assets/Welcome.jpg')">
+          <span class="tag">Course</span>
+        </div>
+        <div class="body">
+          <h2>The Pot Principle</h2>
+          <p>How everyday actions and decisions add up to team performance and company results.</p>
+          <span class="cta">Start course</span>
+        </div>
+      </a>
+
+      <a class="card" href="restoration-concepts/content/index.html">
+        <div class="thumb" style="background-image:url('restoration-concepts/content/assets/stock-image.jpg')">
+          <span class="tag">Course</span>
+        </div>
+        <div class="body">
+          <h2>Restoration Concepts</h2>
+          <p>Core concepts and terminology for restoration and mitigation work.</p>
+          <span class="cta">Start course</span>
+        </div>
+      </a>
+
+      <a class="card" href="restoration-services/content/index.html">
+        <div class="thumb" style="background-image:url('restoration-services/content/assets/Welcome.jpg')">
+          <span class="tag">Course</span>
+        </div>
+        <div class="body">
+          <h2>Restoration Services</h2>
+          <p>An overview of the restoration services Team Luciani provides to customers.</p>
+          <span class="cta">Start course</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
 </main>
 
 <footer>
